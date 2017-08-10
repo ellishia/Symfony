@@ -1,0 +1,121 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * 
+ * @ORM\Entity
+ * @ORM\Table(name="model")
+ */
+class Model
+{
+     /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+     /**
+     * @ORM\Column(type="string")
+     */
+    private $nombreArtistico;
+
+     /**
+     * @ORM\Column(type="string")
+     */
+    private $foto;
+
+           /**
+     * @var \Model
+     *
+     * @ORM\OneToOne(targetEntity="Usuario")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="usuario_id", referencedColumnName="id")
+     * })
+     */
+    private $usuarioId;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nombreArtistico
+     *
+     * @param string $nombreArtistico
+     * @return Model
+     */
+    public function setNombreArtistico($nombreArtistico)
+    {
+        $this->nombreArtistico = $nombreArtistico;
+
+        return $this;
+    }
+
+    /**
+     * Get nombreArtistico
+     *
+     * @return string 
+     */
+    public function getNombreArtistico()
+    {
+        return $this->nombreArtistico;
+    }
+
+    /**
+     * Set foto
+     *
+     * @param string $foto
+     * @return Model
+     */
+    public function setFoto($foto)
+    {
+        $this->foto = $foto;
+
+        return $this;
+    }
+
+    /**
+     * Get foto
+     *
+     * @return string 
+     */
+    public function getFoto()
+    {
+        return $this->foto;
+    }
+
+    /**
+     * Set usuarioId
+     *
+     * @param \AppBundle\Entity\Usuario $usuario $usuario
+     * @return Model
+     */
+    public function setUsuarioId($usuarioId)
+    {
+        $this->usuarioId = $usuarioId;
+
+        return $this;
+    }
+
+    /**
+     * Get usuarioId
+     *
+     * return \AppBundle\Entity\Usuario 
+     */
+    public function getUsuarioId()
+    {
+        return $this->usuarioId;
+    }
+    
+}

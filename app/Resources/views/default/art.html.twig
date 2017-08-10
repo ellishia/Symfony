@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% set classes = ['top1st', 'top2nd', 'top3nd',  'top4nd', 'top5nd']  %}
+{% set classesModel = ['top1stmodel', 'top2ndmodel', 'top3ndmodel'] %}
+{% set offset=-55 %}
+{% set i=0 %} 
+{% block body %}
+    
+    {%if art == 7 %}
+        {% set round = 'roundmodel' %}
+        {% set classes = classesModel %}
+        {% set limit = 3 %}
+        <div class="flexbox">			 
+            <div class="col" style="flex:1;"> 
+                <h2 class="pagename" style="float:right; margin-right:60px;">Modelos</h2>   
+                {% for modelo in modelos %}
+                    {% set class=classesModel[i] %} 
+                    <figure style="position:relative;" >
+                        <a href="/modelo/{{modelo.nombre}}-{{modelo.id}}">
+                        <img class="roundmodel {{class}}" style="margin-bottom:{{offset}}px;" src="{{asset('images/' ~ modelo.foto )}}">
+                        <figcaption class="{{class}} cap-bot" style="margin-bottom:{{offset}}px" >{{ modelo.nombre }}<br> {{ modelo.apellidos }} 	</figcaption>
+                    </figure> 
+                    {% if i+1 == 3 %}  {% set offset = offset -200 %} {%endif %}
+                    {% set i = (i+1) %3  %}
+                    {%endfor %}
+            </div>
+            {% set offset=-55 %}
+            {% set i=0 %}
+            <div class="col" > 
+                 <h2 class="pagename" style="color: #916319;">Artistas de {{artistas[0].name }}{% if art2 != null   %}-{{art2.name}}{%endif%} </h2>   
+    {% else %}
+        <div class="container"> 
+        {%set round = 'round' %}
+        {% set limit = 5 %}
+        <h2 class="pagename">Artistas de {{artistas[0].name }}{% if art2 != null   %}-{{art2.name}}{%endif%} </h2>   
+    {%endif %}
+        
+             
+        {% for  artist in  artistas %} 
+            {% set class=classes[i] %} 
+        <figure style=" margin-top:200px;" >
+            <a href="/artista/{{artist.nombre}}-{{artist.id}}">
+	    <img class="{{round}} {{class}}" style="margin-bottom:{{offset}}px" src="{{asset('images/' ~ artist.foto )}}">
+	    <figcaption class="{{class}} cap-bot" style="margin-bottom:{{offset}}px" >{{ artist.nombre }}<br> {{ artist.apellidos }} 	</figcaption>
+      	</figure>  
+        {% set i=(i+1)% limit  %}
+        {% if i < 1 %}  {% set offset = offset -200 %} {%endif %}
+        {% endfor %}
+        
+      
+        <br><br>
+        {% set offset = offset - 100 %}
+        {#
+	<div class="contain" style="position:absolute; margin-top: 200px;">	
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="article-title">Nuestras obras de {{artistas[0].name }}</h2>
+                    <span class="line"><span class="sub-line"></span></span>
+                    <a class="slider-control pull-right next" href="#new-classes" data-slide="next"></a>
+                    <a class="slider-control pull-right prev" href="#new-classes" data-slide="prev"></a>
+                    <a class="button-gym normal-button view-all pull-right" href="#">Ver todas</a>
+                </div>
+            </div>
+	    <div class="row">
+                <div class="new-classes">
+                    <div id="new-classes" class="carousel slide">
+                        <div class="carousel-inner">
+                            {% set i =0 %}
+                            {% for obra in obras %}  
+                            {% if i < 1 %}
+                            <div class="item">
+                             {% endif %}
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="new-class">
+                                        <img src="{{asset('images/' ~ obra.foto )}}"  alt="{{obra.titulo}}">
+                                        <div class="class-title">
+                                            <div class="occult" style="display: none;"><a href="/obra/{{obra.id}}"></a></div>
+                                            <h3>{{obra.titulo}}</h3>
+                                            <p class="occult" style="display: none;"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% if i == 4 or loop.last %}
+                            </div>
+                            {%endif %}
+                                    {% set i=(i+1)%4 %}  
+                                    {% endfor %}
+                              
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+     </div> #}
+    {%if art == 7 %}
+     </div>
+    {%endif %}
+         
+{% endblock %}
+
+{% block stylesheets %}
+ <link href="{{ asset('css/base.css') }}" type="text/css" rel="stylesheet" />
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+{% endblock %}
+

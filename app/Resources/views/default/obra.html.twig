@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+   
+    <div class="container"> 
+        <h2 class="pagename">Obra: {{obra.titulo}}</h2> 
+        <h2 class="pagename"> Artista:  <a href="/artista/{{obra.artista.usuario.nombre}}-{{obra.artista.id}}"> {{obra.artista.usuario.nombre}} {{obra.artista.usuario.apellidos}} </a></h2>
+        <div class="flexbox">
+            <div class="col" >
+	        <p class="tituloexp">   Año: {{ obra.anyo|date('Y') }} <br>
+            Dimensiones: {{obra.medidas}} <br>
+            {% if obra.coleccionPrivada %}  
+                Coleccion Privada 
+            {% else %}
+                Precio: {{obra.precio}} 
+            {% endif %} <br>
+                {% if obra.material != null %}
+                    Material: {{obra.material}} <br>
+                {%endif %}
+                {% if obra.tecnica !=null %}
+                    Técnica: {{obra.tecnica}} <br>
+                    {%endif %}
+                    </p>
+	    </div>		 
+            <div class="col" id="background" style="flex:2 0px; "> 
+                <br> <br> 
+                <h2  style="margin-bottom:10px; float:left; color:#701903;"> {%if obra.tipo != null %} <a href="/arte/{{obra.tipo.id}}" > {{obra.tipo.name}} </a> {%endif %}  </h2> <br>
+                <br> <br>
+                <div class="hs-wrapper">
+                    <figure>
+                        <img class="expuesta" src="{{asset('images/' ~ obra.foto )}}" alt="image01"/>
+                    </figure>
+                    {% for imag in obra.imagen %}
+                        <figure>
+                            <img class="expuesta" src="{{asset('images/' ~ imag.titulo)}}" alt="image02"/>
+                        </figure>
+                   {%endfor %}
+                </div> 
+            </div>
+         </div>
+    </div>
+{% endblock %}
+
+{% block stylesheets %}
+ <link href="{{ asset('css/base.css') }}" type="text/css" rel="stylesheet" />
+ <link href="{{ asset('css/style2.css') }}" type=text/css" rel="stylesheet" />
+{% endblock %}

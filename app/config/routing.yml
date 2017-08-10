@@ -1,0 +1,41 @@
+blogger_blog:
+    resource: "@BloggerBlogBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation
+
+
+arte:
+    path: /arte/{arte}
+    defaults: { _controller: AppBundle:Default:art}
+    
+artista:
+    path: /artista/{artista}-{id}
+    defaults: {_controller: AppBundle:Default:artista}
+  
+obra:
+    path: /obra/{obra}
+    defaults: { _controller: AppBundle:Default:obra}
+    
+addArtista:
+    path: /addArtista
+    defaults: {_controller: AppBundle:Default:newArtist}
+    
+addObra:
+    path: /addObra
+    defaults: {_controller: AppBundle:Default:newObra}
+
+addCurriculum:
+    path: /addCurriculum
+    defaults: {_controller: AppBundle:Default:newCurriculum}
+    
+login:
+    pattern:   /login
+    defaults:  { _controller: AppBundle:Security:login }
+login_check:
+    pattern:   /login_check
+
+logout:
+    path: /logout

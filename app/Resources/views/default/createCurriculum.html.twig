@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+
+<script>
+        var $collectionHolder = $('ul.estudios');
+        var $collection2Holder;
+
+
+// setup an "add a tag" link
+var $addTagLink = $(' <a href="#" class="add_new_link">Añadir Estudio</a>') ;
+var $newLinkLi = $('</br><li></li>').append($addTagLink);
+
+var $addExpLink = $('<a href="#" class="add_tag_link">Añadir Experiencia</a>');
+var $newExpLi = $('</br><li></li>').append($addExpLink);
+
+var $removeFormA = $('<a href="#">delete </a>');
+
+
+ function addSubForm($collectionHolder, $newLinkLi, $title) {
+ 
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+    // Replace '__name__' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    var newForm = ($collectionHolder.data('prototype')).replace(/__name__/g, index);
+
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+
+    // Display the form in the page in an li, before the "Add a tag" link li
+    var $newFormLi = $('<h3 class="lab"> </h3>').append($title);
+    $newFormLi = $newFormLi.add(newForm);
+    addFormDeleteLink($newFormLi);
+      $collectionHolder.append($newFormLi);
+      
+     
+  //  $newLinkLi.before($newFormLi);
+  
+}
+
+function addFormDeleteLink($tagFormLi) {
+    
+    $tagFormLi.append($removeFormA);
+
+    $removeFormA.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // remove the li for the tag form
+        $tagFormLi.remove();
+    });
+}
+
+ $(document).ready(function() {
+     $collectionHolder = $('ul.estudios');    
+     
+    $collectionHolder.find('li').each(function() {
+        addFormDeleteLink($(this)); });
+    // add the "add a tag" anchor and li to the tags ul
+    $collectionHolder.parent().append($newLinkLi);
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+    $title = ('Estudio');
+    
+    $collection2Holder = $('ul.experiencia'); 
+    
+    //$collection2Holder.find('li').each(function() {
+       // addFormDeleteLink($(this));  });
+    $collection2Holder.parent().append($newExpLi);
+    $collection2Holder.data('index', $collection2Holder.find(':input').length);
+    $title2= ('Experiencia');
+    
+    $newExpLi.on('click', function(e){
+       e.preventDefault();
+       
+       addSubForm($collection2Holder, $newExpLi, $title2);
+    });
+    
+    $newLinkLi.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // add a new tag form (see next code block)
+        addSubForm($collectionHolder, $newLinkLi, $title);
+    });
+});  
+
+</script>    
+    
+    <div class="background" style="background: url({{asset('images/' ~ obra.foto )}}) repeat; background-size: 160px 160px;  ">
+        <div class="transbox">
+            <h2  class="pagename"> Añadir Curriculum </h2> <br>  
+            <h3 class="lab" > Artista </h3>
+            {% if is_granted('ROLE_ADMIN') %} 
+                {# create a dropdown list with the artists name and lastname#} 
+            {% else %} <label class="capital"> {{ app.user.nombre}} {{ app.user.apellidos }} </label>
+            {%endif%} 
+            {{ form_start(form) }}
+
+            {{ form_errors(form) }}
+            {{ form_row(form.texto, {'attr': {'class': 'row spacing' }, 'label_attr': {'class': 'lab'}  }) }}
+    <div>
+        <h3 class="lab">Estudios</h3> </br>
+        <ul class="estudios"  data-prototype="{{ form_widget(form.estudio.vars.prototype)|e('html_attr') }}"> 
+            {{form_row(form.estudio, {'label_attr': {'class': 'lab'} })}}
+            {% for estudio in form.estudio %}                
+                
+                <li>{{ form_row(estudio.titulo, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}           
+                {{ form_row(estudio.fecha, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}
+                {{ form_row(estudio.fechafin, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}
+                {{ form_row(estudio.lugar, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}</li> 
+            {% endfor %}
+        </ul>
+    </div>
+        <div>
+    <h3 class="lab">Experiencias</h3> </br>
+    <ul class="experiencia" data-prototype="{{ form_widget(form.exposicion.vars.prototype)|e('html_attr') }}">
+        {# iterate over each existing tag and render its only field: name #}
+            {{form_row(form.exposicion, {'label_attr': {'class': 'lab'} })}}        
+        {% for experiencia in form.exposicion %}
+            <li>{{ form_row(experiencia.tipo, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}
+            {{ form_row(experiencia.titulo, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}            
+            {{ form_row(experiencia.fecha, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}        
+            {{ form_row(experiencia.lugar, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}
+            {{ form_widget(experiencia.individual, {'attr': {'class': 'row spacing' }, 'label_attr': {'class': 'lab'}  }) }}
+            {{ form_row(experiencia.arte, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}</li>
+        {% endfor %}
+    </ul>
+        </div>
+    </br>
+        {{ form_widget(form.continue, {'attr': {'class':'row button' } }) }}
+ 
+    {{ form_end(form) }}
+        </div>
+    </div>
+{%endblock %}
+
+{% block stylesheets %}
+ <link href="{{ asset('css/base.css') }}" type="text/css" rel="stylesheet" /> 
+ <link href="{{ asset('css/default.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}

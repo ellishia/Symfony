@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h2 class="gallrod">¿Qué representa GALLROD?</h2>
+    <p class="texto" style="margin-left:10px;"> GALLROD es el seudónimo bajo el firma el artista multidisciplinar Christian Gallego. Este acrónimo nace en 1998 como la contracción de sus dos apellidos. Más adelante, en 2012, se convierte en la comunidad de artistas que hoy conocemos.
+    GALLROD is an artists' creation comunity for everyone to develop, broadcast and encourage Art production on a world wide scale. Art as we understand it has many disciplines and subjects and we support and create our pieces in many modern and traditional arts.
+    We try not to tie to disciplines and therefore some artists have work in several of the areas we use to classify our creations. <br> </p> <br>
+    
+     <div class="container">		
+         
+        <h2 class="gallrod" style="padding-top:20px; text-transform: uppercase; " > Presentación </h2>
+        <br>
+        <div style="overflow-y: visible; "> 	
+             {% for  artist in  artistas %} 
+                 <a href="/artista/{{artist.nombre}}-{{artist.id}}" />  
+             <img class="round" style="margin-left: 20px;" src="images/{{artist.foto}}" />
+                 <div class="description">  
+                  <!-- description content -->  
+                    <p class="description_content">{{artist.nombre}}<br>{{artist.apellidos}} <br> </p>  
+                  <!-- end description content -->  
+                  </div>  
+              {% endfor %}
+        </div>           
+     </div>
+
+{% endblock %}
+
+{% block right %} 
+    <div  class="bloglat" id="buscarwrap" style="clear:right;  margin-right:12px;"> 
+            <h3 style="text-transform: uppercase; font-size:medium; margin-left:5px;" > noticias del blog </h3>
+					  
+  </div>
+ {%endblock %} 
+
+{% block stylesheets %}
+ <link href="{{ asset('css/base.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}

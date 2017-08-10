@@ -1,0 +1,47 @@
+/* CSS Document */
+
+/*##############################################################
+  Eric Meyer's Reset.css (includes Baseline)
+##############################################################*/ 
+
+
+.row  {
+    color: #761A1A;
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+}
+.spacing {
+    margin-left: 20px;
+}
+
+input[type="checkbox"].row {
+ display: inline;
+ background-color: #916319;
+    height: 20px;
+    width: 20px;
+    border: 1px darkorchid;
+}
+    
+
+.lab  {
+    color: #761A1A;
+    font-weight: bold;
+    font-size: 120%;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-right: 10px;
+}
+
+.button {
+    background-color:  #916319;
+    margin-left: 200px;
+}
+
+.capital {
+    text-transform:  capitalize;
+    color: #761A1A;
+    font-weight: bold;
+    
+}

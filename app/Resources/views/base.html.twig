@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+          <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <title>{% block title %}Gallrod{% endblock %}</title>
+       
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+            {% block stylesheets %}
+            <link href="{{ asset('css/base.css') }}" type="text/css" rel="stylesheet" />
+        {% endblock %}
+    <body id="index_page"> 
+        <div id="fb-root"></div>
+            <script>
+   	(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.5";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+    </script>
+          
+  <!-- Modal -->
+  
+     <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Login</h4>
+        </div>
+        <div class="modal-body">
+            <form action="{{ path('login') }}" method="post">
+    <label for="username">Username:</label>
+     <input type="text" id="username" name="_username" />
+    <br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="_password" />
+
+    <input type="checkbox" id="remember_me" name="_remember_me" checked />
+    <label for="remember_me">Keep me logged in</label>
+    {#
+        If you want to control the URL the user
+        is redirected to on success (more details below)
+        <input type="hidden" name="_target_path" value="/account" />
+    #}
+
+    <button type="submit">login</button>
+    </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+      </div>
+      
+      <!-- End MODAL -->
+    
+         <div id="leftcolumnwrap">
+            <div id="leftcolumn">
+                <label for="show-user" class="show-user">USER</label>
+                <input type="checkbox" id="show-user" role="button"> <br/>                
+                <ul id="sunday">
+                    {% if app.user !=null %}                         
+                         <li><a href="/modPass" title="Modify">Cambiar Contraseña</a></li>
+                         <li><a href="/addCurriculum" title="addYourCurriculum">Añadir Curriculum</a></li>
+                         <li><a href="/addObra" title="addObra"> Añadir Obra</a></li>
+                         <li><a href="/logout" title="logout">Logout</a></li>
+                         
+                    {% else %}
+                    <li><a href="#" title="login" data-toggle="modal" data-target="#myModal">Login</a></li>
+                    <li><a href="/register" title="register">Registrarse</a></li>
+                    <li><a href="/addArtista" title="Añadir Artista">Añadir Artista</a></li>
+                    {#{% elseif %}#} 
+                        {%endif%}
+                </ul>
+            </div>
+        </div>
+	<div id="buscarwrap">
+	    <form class="searchform">
+	        <input class="searchfield" type="text" value="Buscar..." onfocus="if (this.value === 'Buscar...') {this.value = '';}" onblur="if (this.value === '') {this.value = 'Buscar...';}" />
+		<input class="searchbutton" type="button" value="Ir" />
+	     </form>
+	</div>
+	<br>	
+	<div id="buscarwrap" style="clear:right; width:260px; height:240px; margin-top:245px; margin-right: 13px;">
+            <div class="fb-page" 
+    		 data-href="https://www.facebook.com/gallrodsgallery" 
+    		 data-tabs="timeline" data-small-header="false" 
+    		 data-adapt-container-width="true" 
+    		 data-hide-cover="false" 
+    		 data-show-facepile="false">
+    		 <div class="fb-xfbml-parse-ignore">
+                     <blockquote cite="https://www.facebook.com/gallrodsgallery"><a href="https://www.facebook.com/gallrodsgallery">Gallrod</a></blockquote>
+    		 </div>
+            </div>
+	</div>
+	<br>	
+     
+	<div id="wrapper" >			
+	    <div id="header" style="margin-left:-10px;">
+                <br/>
+                <h1 style="position:relative;"> <span class="doubleUnderline"> Gallrod </span>  </h1>
+                <br/>			
+                <h2 class="screen" style="text-transform:uppercase; position:relative; white-space: nowrap;"> Canarias Arte y Creación</h2>
+                <br/>	
+                <div id="header-image">	 </div>	
+                <h2 class="margin" style= "white-space: nowrap;"> Art, Style & Creation</h2>  
+                	
+            </div>   
+            <br>
+            <label for="show-menu" class="show-menu">MENU</label>
+	    <input type="checkbox" id="show-menu" role="button">
+            <ul id="saturday">
+                <li><a href="/" title="Inicio" class="current">Home</a></li>
+                <li><a href="/arte/1" title="Pintura">Pintura</a></li>
+                <li><a href="/arte/2" title="Escultura" >Escultura</a></li>
+                <li><a href="/arte/3" title="Fotografia">Fotografía</a></li>
+                <li><a href="/arte/4" title="Audiovisuales">Audiovisuales</a></li>
+                <li><a href="/arte/5&6" title="Dibujos y Grabados">Dibujos-Grabados</a></li>
+                <li><a href="/arte/7" title="Estilo y Moda">Estilo-Moda</a></li>
+                <li><a href="/arte/8&9" title="Interiorismo y Diseño">Interiorismo-Diseño</a></li>
+                <li><a href="/arte/10&11" title="Escritos">Literatura</a></li>
+                <li><a href="/arte/12&13" title="Otras Artes">Otras Artes</a></li>					
+                <li><a href="#" title="Blog">Blog</a></li>
+                <li><a href="#" title="Galeria Online">Galería Online</a></li>
+                <li><a href="#" title="Rutas Culturales">Rutas Culturales</a></li>
+                <li><a href="#" title="Contacto">Contact Us</a></li>
+                <li><a href="#" title="Galerias Amigas">Galerías Amigas</a></li>
+            </ul>
+	
+            <div id="contentwrap" >
+                <div id="content"> {% block body %} {% endblock %} </div>
+            </div>
+       
+         </div>
+            {% block right %} {%endblock %}
+    </body>
+</html>
