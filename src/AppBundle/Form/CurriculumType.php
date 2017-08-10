@@ -16,6 +16,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use AppBundle\Entity\Estudio;
+use AppBundle\Entity\Exposicion;
 
 /**
  * Description of ArtistType
@@ -43,6 +44,8 @@ class CurriculumType extends AbstractType {
             ->add('exposicion',  CollectionType::class, array(
                  'entry_type' => ExposicionType::class ,
                  'allow_add'    => true,
+                'allow_delete' => true,
+                 'prototype_data' => new Exposicion(),
                 'by_reference' => false,)) 
                 
             ->add('continue', SubmitType::class)            

@@ -11,6 +11,8 @@ use AppBundle\Entity\Curriculum;
 use AppBundle\Entity\Estudio;
 use AppBundle\Form\ArtistType;
 use AppBundle\Form\CurriculumType;
+use AppBundle\Form\ObraType;
+
 
 class DefaultController extends Controller
 {
@@ -67,7 +69,7 @@ class DefaultController extends Controller
         if ($art == 7) {
             $repository = $this->getDoctrine()->getRepository('AppBundle:Model');
             $queryb = $repository->createQueryBuilder('models')
-                    ->select( 'models', 'u.nombre', 'u.apellidos' )
+                    ->select( 'models.id', 'models.foto','models.nombreArtistico', 'u.nombre', 'u.apellidos' )
                     ->join('models.usuarioId', 'u', 'AppBundle:Usuario')
                      ->where('u.isActive = 1');
             $query=$queryb->getQuery();
@@ -75,10 +77,7 @@ class DefaultController extends Controller
         }
         else { $modelos = null;}
         $repository = $this->getDoctrine()->getRepository('AppBundle:Obra');
-        $queryb = $repository->createQueryBuilder('obra')
-            ->select( 'obra' )
-            ->join('usuario', 'u', 'AppBundle:Usuario')
-             ->where('u.isActive = 1');
+       
                 
         $obras = $repository->findBy(array('tipo' => $art));
         return $this->render('default/art.html.twig', array('artistas'=> $artistas, 'obras' => $obras, 'art'=> $art, 'modelos' => $modelos, 'art2' => $entityArt ));
@@ -169,7 +168,7 @@ class DefaultController extends Controller
             $em->persist($usuario);
             $em->persist($artista);
             $em->flush();
-            $this->get('session')->getFlashBag()->set('backgroundObra', $obra->getFoto());
+            $this->get('session')->getFlashBag()->set('backgroundObra', $obra);
             $this->get('session')->getFlashBag()->set('artista', $artista->getId());
             return $this->redirect($this->generateUrl('addCurriculum', array('request' => $request)));
         }
@@ -226,6 +225,7 @@ class DefaultController extends Controller
      *  @Route("/addObra", name="addObra")
      */
     public function newObraAction(Request $request){
+         $em = $this->getDoctrine()->getManager();
         $artista = $request->attributes->get('artista');
         $query = $em->createQuery('SELECT COUNT(o.id) FROM AppBundle\Entity\Obra o');
         $count = $query->getSingleScalarResult();
