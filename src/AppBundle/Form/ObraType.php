@@ -39,9 +39,19 @@ class ObraType extends AbstractType {
                 'choice_label' => 'name',
                 'class' => 'AppBundle:Art',
                 'expanded' => false,
-                'multiple' => true ))     
+                'multiple' => false ))     
             ->add('medidas')            
-            ->add('foto',  FileType::class, array('label' => 'Foto de la Obra'))
+            ->add('foto',  FileType::class, array('label' => 'Foto Principal de la Obra'))
+                  ->add('imagen',  CollectionType::class, array(
+                'entry_type' => ImagenType::class,
+                'allow_add'    => true,
+                'allow_delete' => true,
+                'prototype_data' => new Imagen(),
+                'by_reference' => false,
+                'attr'           => array(
+                    'class' => 'row'
+                )))
+          
             ->add('tecnica', ChoiceType::class, array(
               'choices' => $tipos ))  
             ->add('material')
@@ -54,7 +64,7 @@ class ObraType extends AbstractType {
                 'choice_label' => 'name',
                 'class' => 'AppBundle:Modelo',
                 'expanded' => false,
-                'multiple' => false))
+                'multiple' => true))
                 
             ->add('continue', SubmitType::class)               
         ;

@@ -22,17 +22,7 @@ class UsuarioType extends AbstractType {
      public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre')
-            ->add('apellidos')
-            ->add('email',  'repeated', array(
-           'first_name'  => 'email',
-           'second_name' => 'confirm',
-           'type'        => 'email', ))
-            ->add('password', 'repeated', array(
-           'first_name'  => 'password',
-           'second_name' => 'confirm',
-           'type'        => 'password',
-        ))            
+            ->add('imagen',   FileType::class, array('label' => 'Foto'))                   
         ;
     }
     
@@ -42,7 +32,7 @@ class UsuarioType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Usuario'
+            'data_class' => 'AppBundle\Entity\Imagen'
         ));
     }
 
@@ -51,7 +41,7 @@ class UsuarioType extends AbstractType {
      */
     public function getName()
     {
-        return 'appbundle_usuario';
+        return 'appbundle_imagen';
     }
 
 }

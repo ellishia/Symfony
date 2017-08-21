@@ -3,30 +3,30 @@
 
 
 .ob-wrapper{
-    width: 240px;
+   width: 240px;
     padding: 5px 2px 5px 2px;
    border: 1px dotted #701903;
  }
  
 .ob-overlay{
-    position: absolute;
-	width: 100%;
-	height: 100%;
-	opacity: 0;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
     z-index: 500;
-	background: rgba(0,0,0,0.6);
-	box-shadow: 0 0 0 0 rgba(255,255,255,0.3) inset;
-	pointer-events: none;
-	-webkit-transition: all 0.3s linear;
-	-moz-transition: all 0.3s linear;
-	-o-transition: all 0.3s linear;
-	-ms-transition: all 0.3s linear;
-	transition: all 0.3s linear;
+    background: rgba(0,0,0,0.6);
+    box-shadow: 0 0 0 0 rgba(255,255,255,0.3) inset;
+    pointer-events: none;
+    -webkit-transition: all 0.3s linear;
+    -moz-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    -ms-transition: all 0.3s linear;
+    transition: all 0.3s linear;
  }
  
 .ob-wrapper:hover .ob-overlay{
     opacity: 0.7;
-	box-shadow: 0 0 0 5px rgba(255,255,255,0.3) inset;
+    box-shadow: 0 0 0 5px rgba(255,255,255,0.3) inset;
 }
 
 
@@ -45,13 +45,13 @@
  #cuadro .obra {
     width: 220px;
     height: 220px;
-    margin-left: 5px;
+    margin-left: 0px;
   }
   
  #cuadro .titulo {
      font-family: Arial;
      text-align: left;
-     font-size: 20px;     
+     font-size: 16px;     
      color: #701903;
   }
 

@@ -39,7 +39,7 @@ security:
             
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/addCV,  roles: [ROLE_ARTIST, ROLE_ADMIN] }
+        - { path: ^/addCurriculum,  roles: [ROLE_ARTIST, ROLE_ADMIN] }
             # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
 
             # form_login: ~

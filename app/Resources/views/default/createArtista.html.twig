@@ -7,12 +7,12 @@
                 {{ form_start(form) }}
     {{ form_errors(form) }}
 
-   {{ form_row(form.usuario.nombre, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}
-    {{ form_row(form.usuario.apellidos, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}   
-     {{ form_row(form.usuario.username, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}   
-    {{ form_row(form.usuario.email, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}
+   {{ form_row(form.usuario.nombre, {'attr': {'class': 'row spacing' }, 'label_attr': {'class': 'lab'}  }) }}
+    {{ form_row(form.usuario.apellidos, {'attr': {'class': 'row spacing' }, 'label_attr': {'class': 'lab'}  }) }}   
+     {{ form_row(form.usuario.username, {'attr': {'class': 'row spacing' }, 'label_attr': {'class': 'lab'}  }) }}   
+    {{ form_row(form.usuario.email, {'attr': {'class': 'row spacing' }, 'label_attr': {'class': 'lab'}  }) }}
     {% if not app.user %}
-        {{ form_row(form.usuario.password, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}    
+        {{ form_row(form.usuario.password, {'attr': {'class': 'row spacing' }, 'label_attr': {'class': 'lab'}  }) }}    
     {%endif %}
     {{ form_row(form.nombreArtistico,{'attr': {'class': 'row spacing' }, 'label_attr': {'class': 'lab'} }) }}  
     {{ form_row(form.foto , { 'attr': {'class': 'row spacing'},  'label_attr': {'class': 'lab'} }) }}

@@ -1,20 +1,104 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    
+<script>
+        var $collectionHolder = $('ul.imagenes');
+       
+
+
+// setup an "add a tag" link
+var $addImagenLink = $(' <a href="#" class="add_new_link">Añadir Más Fotos</a>') ;
+var $newLinkLi = $('</br><li></li>').append($addImagenLink);
+
+var $removeFormA = $('<a href="#">delete </a>');
+
+
+ function addSubForm($collectionHolder, $newLinkLi, $title) {
+ 
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+    // Replace '__name__' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    var newForm = ($collectionHolder.data('prototype')).replace(/__name__/g, index);
+
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+
+    // Display the form in the page in an li, before the "Add a tag" link li
+    var $newFormLi = $('<h3 class="lab"> </h3>').append($title);
+    $newFormLi = $newFormLi.add(newForm);
+    addFormDeleteLink($newFormLi);
+      $collectionHolder.append($newFormLi);
+      
+     
+  //  $newLinkLi.before($newFormLi);
+  
+}
+
+function addFormDeleteLink($tagFormLi) {
+    
+    $tagFormLi.append($removeFormA);
+
+    $removeFormA.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // remove the li for the tag form
+        $tagFormLi.remove();
+    });
+}
+
+ $(document).ready(function() {
+     $collectionHolder = $('ul.imagen');    
+     
+    $collectionHolder.find('li').each(function() {
+        addFormDeleteLink($(this)); });
+    // add the "add a tag" anchor and li to the tags ul
+    $collectionHolder.parent().append($newLinkLi);
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+    $title = ('Estudio');
+    
+    $newLinkLi.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // add a new tag form (see next code block)
+        addSubForm($collectionHolder, $newLinkLi, $title);
+    });
+});  
+
+</script>    
+
+    
+    
     <div class="background" style="background: url({{asset('images/' ~ obra.foto )}}) repeat; background-size: 160px 160px;  ">
         <div class="transbox">
-            <h2  class="pagename"> Añadir Artista nuevo </h2> <br>  
+            <h2  class="pagename"> Añadir Obra </h2> <br>
+            <h3 class="lab"> Artista </h3>
+            {% if is_granted('ROLE_ADMIN') %} 
+                {# create a dropdown list with the artists name and lastname#} 
+            {% else %} <label class="capital"> {{ app.user.nombre}} {{ app.user.apellidos }} </label>
+            {%endif%} 
 {{ form_start(form) }}
     {{ form_errors(form) }}
 
-   {{ form_row(form.usuario.nombre, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}
-    {{ form_row(form.usuario.apellidos, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}    
-    {{ form_row(form.usuario.email, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}
-    {% if not app.user %}
-        {{ form_row(form.usuario.password, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}    
-    {%endif %}
-    {{ form_row(form.nombreArtistico,{'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'} }) }}  
+   {{ form_row(form.titulo, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}
+    {{ form_row(form.anyo, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}    
+    {{ form_row(form.medidas, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}
+    {{ form_row(form.tecnica, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}    
+
+    {{ form_row(form.materiales,{'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'} }) }}  
     {{ form_row(form.foto , { 'attr': {'class': 'row'},  'label_attr': {'class': 'lab'} }) }}
+      <ul class="imagenes"  data-prototype="{{ form_widget(form.imagen.vars.prototype)|e('html_attr') }}"> 
+            {% for imagen in form.imagen %}                
+                
+                <li>{{ form_row(imagen, {'attr': {'class': 'row' }, 'label_attr': {'class': 'lab'}  }) }}        
+            {% endfor %}
+        </ul>
     {{ form_row(form.art, { 'attr': {'class': 'row'}, 'label_attr': {'class': 'lab'} }) }}
      <div class="button">
         {{ form_widget(form.continue, {'attr': {'class':'row'} }) }}

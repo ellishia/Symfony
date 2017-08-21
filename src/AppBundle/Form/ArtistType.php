@@ -31,7 +31,7 @@ class ArtistType extends AbstractType {
                 'attr' => array('class' => 'art_sel'),
                 'choice_label' => 'name',
                 'class' => 'AppBundle:Art',
-                'expanded' => false,
+                'expanded' => true,
                 'multiple' => true ))           
             ->add('continue', SubmitType::class)            
         ;

@@ -69,7 +69,8 @@ and open the template in the editor.
      transition: .5s;
       max-width: 40% !important;
       background: #333;
-      flex-grow: 2;
+      color: #916319;
+      flex: 1;
       cursor: pointer;
 }
 #animation {

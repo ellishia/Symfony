@@ -5,10 +5,59 @@
     <p class="texto" style="margin-left:10px;"> GALLROD es el seudónimo bajo el firma el artista multidisciplinar Christian Gallego. Este acrónimo nace en 1998 como la contracción de sus dos apellidos. Más adelante, en 2012, se convierte en la comunidad de artistas que hoy conocemos.
     GALLROD is an artists' creation comunity for everyone to develop, broadcast and encourage Art production on a world wide scale. Art as we understand it has many disciplines and subjects and we support and create our pieces in many modern and traditional arts.
     We try not to tie to disciplines and therefore some artists have work in several of the areas we use to classify our creations. <br> </p> <br>
-    
-     <div class="container">		
-         
-        <h2 class="gallrod" style="padding-top:20px; text-transform: uppercase; " > Presentación </h2>
+    		
+         <div class="flexbox">			 
+            	<div class="col">     		 
+		    <div style="clear:both;"></div>  			 
+		    <div  style="margin-top:50px; margin-bottom:50px;" class="hs-wrapper">
+                            	<img src="images/christian/paris/IMG-20160312-WA0009.jpg" alt="image01"/>
+                            	<img src="images/CARMELO_GALLARDO/coctel1.jpg" alt="image02"/>
+                            	<img src="images/estilismo/12513606_1719522798334152_5259974615304757977_o.jpg" alt="image03"/>
+                            	<img src="images/micky/expo3.jpg" alt="image04"/>
+                            	<img src="images/Freddy/CIELO Y MAR.JPG" alt="image05"/>
+                            	<img src="images/ManuelRijo/2014-12-22 16.59.33.jpg" alt="image06"/>
+                            	<img src="images/estilismo/12794748_1742358859383879_6348020208169227534_o.jpg" alt="image07"/>
+                            	<img src="images/Arabia/Entresombras3.png" alt="image08"/>
+				<img src="images/cynara/IMG-20170814-WA0047.jpg" alt="image09"/>
+                            	<div class="hs-overlay">
+                            		<span><strong>GALLROD</strong></span>
+                            	</div> 
+                            	<div class="hs-titles">
+                            		<span>Christian Gallego</span>
+                            		<span>Carmelo Gallardo</span>
+                            		<span>Estilismo con Cristina Gil Sancho</span>
+                            		<span>Miguel Ángel Mendoza</span>
+                            		<span>Freddy O. Rengel M.</span>
+                            		<span>Manuel Rijo</span>
+                            		<span>Estilismo Samuel Henriquez Machín</span>
+                            		<span>Arabia El messaudi</span>
+					<span>Cynara MCL</span>
+                            	</div>
+                         </div>  
+					          
+            		</div>    
+			   
+			   <div class="col">			   		
+			      <h2 style="color: #996600; text-transform:uppercase;"> Director ejecutivo y artístico </h2>				 	
+				  <div style="overflow-y: visible; margin-left:30px; "> 	
+				  	   				 		   
+						 <div style="margin-top:0px">  
+       					 	   <!-- description content --> 
+							   <figure>  
+							    <img style="margin-left:30px;" class="round" src="images/christian.jpg" />
+        					 <!--  <p class="description_content">Christian Gallego<br> Rodríuez <br> Director ejecutivo<br> pintor, diseñador</p> -->  
+        					   <!-- end description content -->  
+							   
+							   <figcaption class="cap-bot" style="margin-top:190px" >Christian Gallego<br> Rodríuez <br> Director ejecutivo<br> pintor, diseñador 	</figcaption>              
+                  			 </figure> 
+    					</div> 
+				</div> 
+					 
+				</div> 		
+         </div>
+        
+     <div class="container">                
+        <h2 class="gallrod" style="padding-top:20px; text-transform: uppercase; " > Presentación: Artista del Mes</h2>
         <br>
         <div style="overflow-y: visible; "> 	
              {% for  artist in  artistas %} 
@@ -32,5 +81,6 @@
  {%endblock %} 
 
 {% block stylesheets %}
- <link href="{{ asset('css/base.css') }}" type="text/css" rel="stylesheet" />
+ <link href="{{ asset('css/base.css') }}" type="text/css" rel="stylesheet" /> 
+ <link href="{{ asset('css/style2.css') }}" type="text/css" rel="stylesheet" />
 {% endblock %}
