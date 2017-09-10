@@ -16,7 +16,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  *
  * @author Aski
  */
-class UsuarioType extends AbstractType {
+class ImagenType extends AbstractType {
     //put your code here
     
      public function buildForm(FormBuilderInterface $builder, array $options)

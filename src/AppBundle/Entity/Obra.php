@@ -92,6 +92,23 @@ class Obra
      * @ORM\Column(type="float")
      */
     private $precio;
+    
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+    
+     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+    
+    
+    private $createdBy;
+     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $modified;
 
     /**
      * Get id
@@ -316,9 +333,9 @@ class Obra
      * @param boolean $colecionPrivada
      * @return Obra
      */
-    public function setColecionPrivada($colecionPrivada)
+    public function setColeccionPrivada($colecionPrivada)
     {
-        $this->colecionPrivada = $colecionPrivada;
+        $this->coleccionPrivada = $colecionPrivada;
 
         return $this;
     }
@@ -328,9 +345,9 @@ class Obra
      *
      * @return boolean 
      */
-    public function getColecionPrivada()
+    public function getColeccionPrivada()
     {
-        return $this->colecionPrivada;
+        return $this->coleccionPrivada;
     }
 
     /**
@@ -357,36 +374,6 @@ class Obra
     }
 
     /**
-     * Set coleccionPrivada
-     *
-     * @param boolean $coleccionPrivada
-     * @return Obra
-     */
-    public function setColeccionPrivada($coleccionPrivada)
-    {
-        $this->coleccionPrivada = $coleccionPrivada;
-
-        return $this;
-    }
-
-    /**
-     * Get coleccionPrivada
-     *
-     * @return boolean 
-     */
-    public function getColeccionPrivada()
-    {
-        return $this->coleccionPrivada;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->imagen = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
      * Add imagen
      *
      * @param \AppBundle\Entity\Imagen $imagen
@@ -394,7 +381,8 @@ class Obra
      */
     public function addImagen(\AppBundle\Entity\Imagen $imagen)
     {
-        $this->imagen[] = $imagen;
+        $imagen->setObra($this);
+        $this->imagen.add( $imagen);
 
         return $this;
     }
@@ -440,5 +428,86 @@ class Obra
     public function getModel()
     {
         return $this->model;
+    }
+    
+    
+    
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     * @return Obra
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean 
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+       
+     
+    /**
+     * Set created
+     *
+     * @param \DateTime $lastlogin
+     * @return Obra
+     */
+    public function setCreated($lastlogin)
+    {
+        $this->created = $lastlogin;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+    
+    /**
+     * Set modified
+     *
+     * @param \DateTime $lastlogin
+     * @return Exposicion
+     */
+    public function setModified($lastlogin)
+    {
+        $this->modified = $lastlogin;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getModified()
+    {
+        return $this->modified;
+    }
+    
+    
+     public function __construct()
+    {
+        
+        $this->isActive = false;
+         $this->created = new \DateTime("now");
+          $this->imagen = new \Doctrine\Common\Collections\ArrayCollection();
     }
 }

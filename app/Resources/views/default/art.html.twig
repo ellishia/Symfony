@@ -2,9 +2,9 @@
 
 {% set classes = ['top1st', 'top2nd', 'top3nd',  'top4nd', 'top5nd']  %}
 {% set classesModel = ['top1stmodel', 'top2ndmodel', 'top3ndmodel', 'top4thmodel'] %}
-{% set offset=-55 %}
+{% set offset=-30 %}
 {% set i=0 %} 
-{% set marginTop = 200%}
+{% set marginTop = 100%}
 {% block body %}
     
     {%if art == 7 %}
@@ -16,7 +16,7 @@
                 <h2 class="pagename" style="float:right; margin-right:60px;">Modelos</h2>   
                 {% for modelo in modelos %}
                     {% set class=classesModel[i] %} 
-                    <figure >
+                    <figure style="margin-top:100px;">
                         <a href="/modelo/{{modelo.nombre}}-{{modelo.id}}">
                         <img class="roundmodel {{class}}" style="margin-bottom:{{offset}}px;" src="{{asset('images/' ~ modelo.foto )}}">
                         <figcaption class="{{class}} cap-bot" style="position:relative; margin-bottom:{{offset}}px" >{{ modelo.nombre }}<br> {{ modelo.apellidos }}</figcaption>
@@ -40,11 +40,11 @@
     {%endif %}        
          <h2 class="pagename">Artistas de {{artistas[0].name }}{% if art2 != null   %}-{{art2.name}}{%endif%} </h2>      
         {% for  artist in  artistas %} 
-            {% set class=classes[i] %} 
+            {% set class=classes[i] %}            
         <figure style="margin-top:{{marginTop}}px;" >
             <a href="/artista/{{artist.nombre}}-{{artist.id}}">
 	    <img class="{{round}} {{class}}" style="margin-bottom:{{offset}}px" src="{{asset('images/' ~ artist.foto )}}">
-	    <figcaption class="{{class}} cap-bot" style="margin-bottom:{{offset}}px" >{{ artist.nombre }}<br> {{ artist.apellidos }} 	</figcaption>
+	    <figcaption class="{{class}} cap-bot" style=" {%if art == 7%} position:relative; {%endif%}margin-bottom:{{offset}}px" >{{ artist.nombre }}<br> {{ artist.apellidos }} 	</figcaption>
       	</figure>  
         {% set i=(i+1)% limit  %}
         {% if i < 1 %}  {% set offset = offset -200 %} {%endif %}

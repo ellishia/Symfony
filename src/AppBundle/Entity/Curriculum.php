@@ -50,10 +50,31 @@ class Curriculum
     private $exposicion;
     
     
+        /**
+         * @var \IsActive
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+    
+     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+    
+    
+    private $createdBy;
+     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $modified;
+    
     
     public function __construct() {
         $this->estudio = new ArrayCollection();
         $this->exposicion = new ArrayCollection();
+        
+        $this->isActive = false;
+        $this->created = new \DateTime("now");
     }
 
     /**
@@ -70,7 +91,7 @@ class Curriculum
      * Set artistaId
      *
      * @param integer $artistaId
-     * @return Exposicion
+     * @return Curriculum
      */
     public function setArtistaId($artistaId)
     {
@@ -94,7 +115,7 @@ class Curriculum
      * Set artista
      *
      * @param \AppBundle\Entity\Artista $artista
-     * @return Exposicion
+     * @return Curriculum
      */
     public function setArtista(\AppBundle\Entity\Artista $artista = null)
     {
@@ -232,4 +253,79 @@ class Curriculum
     {
         $this->exposicion->removeElement($exposicion);
     }
+    
+    
+    
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     * @return Curriculum
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean 
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+    
+    
+    /**
+     * Set created
+     *
+     * @param \DateTime $lastlogin
+     * @return Curriculum
+     */
+    public function setCreated($lastlogin)
+    {
+        $this->created = $lastlogin;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+    
+    /**
+     * Set created
+     *
+     * @param \DateTime $lastlogin
+     * @return Curriculum
+     */
+    public function setModified($lastlogin)
+    {
+        $this->modified = $lastlogin;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getModified()
+    {
+        return $this->modified;
+    }
+    
 }
+  
+    

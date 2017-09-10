@@ -54,6 +54,12 @@ class Artista
      * @ORM\Column(type="boolean")
      */
     private $destacado;
+    
+      /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+    
     /**
      * Get id
      *
@@ -212,6 +218,7 @@ class Artista
     public function __construct()
     {
         $this->tipo = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->isActive = false;
     }
 
     /**

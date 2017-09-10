@@ -66,6 +66,25 @@ class Exposicion
      */
     private $arte;
   
+         /**
+         * @var \IsActive
+     * @ORM\Column(type="boolean")
+     */
+    private $isActive;
+    
+     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $created;
+    
+    
+    private $createdBy;
+     /**
+     * @ORM\Column(type="datetime")
+     */
+    private $modified;
+    
+    
     /**
      * Get id
      *
@@ -297,5 +316,86 @@ class Exposicion
     public function getTipo()
     {
         return $this->tipo;
+    }
+    
+    
+    
+    /**
+     * Set isActive
+     *
+     * @param boolean $isActive
+     * @return Exposicion
+     */
+    public function setIsActive($isActive)
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    /**
+     * Get isActive
+     *
+     * @return boolean 
+     */
+    public function getIsActive()
+    {
+        return $this->isActive;
+    }
+    
+     
+    /**
+     * Set created
+     *
+     * @param \DateTime $lastlogin
+     * @return Exposicion
+     */
+    public function setCreated($lastlogin)
+    {
+        $this->created = $lastlogin;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+    
+    /**
+     * Set modified
+     *
+     * @param \DateTime $lastlogin
+     * @return Exposicion
+     */
+    public function setModified($lastlogin)
+    {
+        $this->modified = $lastlogin;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getModified()
+    {
+        return $this->modified;
+    }
+    
+     public function __construct()
+    {
+        
+        $this->isActive = false;
+         $this->created = new \DateTime("now");
+        // may not be needed, see section on salt below
+        // $this->salt = md5(uniqid(null, true));
     }
 }

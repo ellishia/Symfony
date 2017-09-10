@@ -3,7 +3,7 @@
 security:
     encoders:
         AppBundle\Entity\Usuario:
-            algorithm: bcrypt
+            algorithm: plaintext
         harsh: 
             algorithm: plaintext
             

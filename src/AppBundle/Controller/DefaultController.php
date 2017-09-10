@@ -129,8 +129,8 @@ class DefaultController extends Controller
         $obra_id = $request->get('obra');
         $repository = $this->getDoctrine()->getRepository('AppBundle:Obra');
        
-       $obra = $repository->findOneBy(array('id' => $obra_id));
-        return $this->render('default/obra.html.twig', array( 'obra' => $obra));
+        $obra = $repository->findOneBy(array('id' => $obra_id));
+        return $this->render('default/obra.html.twig', array('obra' => $obra));
     }
     
     /*
@@ -168,8 +168,8 @@ class DefaultController extends Controller
             $em->persist($usuario);
             $em->persist($artista);
             $em->flush();
-            $this->get('session')->getFlashBag()->set('backgroundObra', $obra);
-            $this->get('session')->getFlashBag()->set('artista', $artista->getId());
+            $this->get('session')->getFlashBag()->add('backgroundObra', $obra->getId());
+            $this->get('session')->getFlashBag()->add('artista', $artista->getId());
             return $this->redirect($this->generateUrl('addCurriculum', array('request' => $request)));
         }
         
@@ -184,7 +184,10 @@ class DefaultController extends Controller
         $em = $this->getDoctrine()->getManager();
          $repository = $this->getDoctrine()->getRepository('AppBundle:Obra');
          $count = 1000;
-        $obra =  $this->get('session')->getFlashBag()->get('backgroundObra') ;
+        $id =  $this->get('session')->getFlashBag()->get('backgroundObra') ;
+        if ($id){
+            $obra = $repository->findOneBy(array('id'=> $id));
+        }
         while (!$obra  or $obra->getFoto() ==null)  {
             $obra = $repository->findOneBy(array('id' => rand(1, $count)));
         }
@@ -216,8 +219,8 @@ class DefaultController extends Controller
            // $em->persist($artista);
             $em->flush();
             
-            $this->get('session')->getFlashBag()->set('backgroundObra', $obra);
-            $this->get('session')->getFlashBag()->set('artista', $artista->getId());
+            $this->get('session')->getFlashBag()->add('backgroundObra', $obra);
+            $this->get('session')->getFlashBag()->add('artista', $artista->getId());
             return $this->redirect($this->generateUrl('addObra', array('request' => $request)));
         }
         

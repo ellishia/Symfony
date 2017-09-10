@@ -92,14 +92,17 @@ function addFormDeleteLink($tagFormLi) {
     <div class="background" style="background: url({{asset('images/' ~ obra.foto )}}) repeat; background-size: 160px 160px;  ">
         <div class="transbox">
             <h2  class="pagename"> Añadir Curriculum </h2> <br>  
+               {{ form_start(form) }}
+
+            {{ form_errors(form) }}
             <h3 class="lab" > Artista </h3>
             {% if is_granted('ROLE_ADMIN') %} 
                 {# create a dropdown list with the artists name and lastname#} 
+                
+                 {{ form_row(form.artista, {'attr': {'class': 'row spacing' }, 'label_attr': {'class': 'lab'}  }) }}
             {% else %} <label class="capital"> {{ app.user.nombre}} {{ app.user.apellidos }} </label>
             {%endif%} 
-            {{ form_start(form) }}
-
-            {{ form_errors(form) }}
+         
             {{ form_row(form.texto, {'attr': {'class': 'row spacing' }, 'label_attr': {'class': 'lab'}  }) }}
     <div>
         <h3 class="lab">Estudios</h3> </br>
