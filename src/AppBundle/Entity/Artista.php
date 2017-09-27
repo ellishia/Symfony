@@ -97,7 +97,7 @@ class Artista
     {
         return null === $this->foto
             ? null
-            : $this->getUploadRootDir().'/'.$this->fotod;
+            : $this->getUploadRootDir().'/'.$this->foto;
     }
 
     public function getWebPath()
@@ -122,11 +122,11 @@ class Artista
     }
 
     public function upload()
-{
+    {
     // the file property can be empty if the field is not required
         if (null === $this->getFoto()) {
-        return;
-    }
+         return;
+        }
 
     // use the original file name here but you should
     // sanitize it at least to avoid any security issues
