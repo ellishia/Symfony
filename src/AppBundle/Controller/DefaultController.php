@@ -6,6 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\Artista;
+use AppBundle\Entity\Model;
 use AppBundle\Entity\Obra;
 use AppBundle\Entity\Curriculum;
 use AppBundle\Entity\Estudio;
@@ -133,6 +134,34 @@ class DefaultController extends Controller
         return $this->render('default/obra.html.twig', array('obra' => $obra));
     }
     
+       /**
+     *  @Route("/modelo/{modelo}-{id}", name="modelo")
+     */
+    public function modeloAction(Request $request){
+        
+        $id = $request->get('id');
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Modelo');
+         
+        $queryb = $repository->createQueryBuilder('a')
+        ->select( 'a.nombreArtistico', 'a.id', 'a.foto', 'u.nombre', 'u.apellidos' )
+            ->join( 'a.usuario', 'u', 'AppBundle:Usuario')            
+           ->where('a.id = :id')
+           ->setParameter('id', $id);
+            
+        $query=$queryb->getQuery();
+        $modelo = $query->getResult();
+       
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Obra');       
+        $obras = $repository->findBy(array('modelo' => $id));
+       
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Curriculum');
+        $curriculum = $repository->findOneBy(array('artista' => $id));
+       
+        return $this->render('default/artista.html.twig', array('artist' => $modelo, 'obras' => $obras, 
+            'curriculum' => $curriculum));        
+    }
+    
+    
     /*
      * @Route("/addArtista", name="addArtista")
      */
@@ -160,11 +189,12 @@ class DefaultController extends Controller
             $usuario->setDefaults();
             //Aun por ver como añado el rol 
            // $usuario->addRole('ROLE_ARTIST');
-             $pwd=$usuario->getPassword();
+            $pwd=$usuario->getPassword();
             $encoder=$this->container->get('security.password_encoder');
             $pwd=$encoder->encodePassword($usuario, $pwd);
             $usuario->setPassword($pwd);
             $artista->setDestacado( false);
+            $artista->setIsActive(false);
             $em->persist($usuario);
             $em->persist($artista);
             $em->flush();
@@ -176,14 +206,59 @@ class DefaultController extends Controller
         return $this->render('default/createArtista.html.twig', array('form' => $form->createView(), 'obra' => $obra ));
     }
     
+      /*
+     * @Route("/addModelo", name="addModelo")
+     */
+    public function newModeloAction(Request $request)
+    {
+        // randomly pick an obra photo
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery('SELECT COUNT(o.id) FROM AppBundle\Entity\Obra o');
+        $count = $query->getSingleScalarResult();
+       
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Obra');
+      
+        do {
+            $obra = $repository->findOneBy(array('id' => rand(1, $count)));
+        }while (!$obra or $obra->getFoto() == null);
+        
+        $modelo = new Modelo();
+        $form = $this->createForm(ModeloType::class, $modelo);
+        
+        $form->handleRequest($request);
+        
+        $modelo->upload();
+        if($form->isSubmitted() and $form->isValid()){
+            // El usuario puede ya estar creado.           
+            $usuario = $form["usuario"]->getData();
+            $usuario->setDefaults();
+            //Aun por ver como añado el rol 
+           // $usuario->addRole('ROLE_ARTIST');
+            $pwd=$usuario->getPassword();
+            $encoder=$this->container->get('security.password_encoder');
+            $pwd=$encoder->encodePassword($usuario, $pwd);
+            $usuario->setPassword($pwd);
+            $modelo->setDestacado(false);
+            $em->persist($usuario);
+            $em->persist($modelo);
+            $em->flush();
+            $this->get('session')->getFlashBag()->add('backgroundObra', $obra->getId());
+            $this->get('session')->getFlashBag()->add('artista', $modelo->getId());
+            return $this->redirect($this->generateUrl('addObra', array('request' => $request)));
+        }
+        
+        return $this->render('default/createArtista.html.twig', array('form' => $form->createView(), 'obra' => $obra ));
+    }
+    
+    
     /*
      * @Route("/addCurriculum", name="addCurriculum")
      */
     public function newCurriculumAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-         $repository = $this->getDoctrine()->getRepository('AppBundle:Obra');
-         $count = 1000;
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Obra');
+        $count = 1000;
         $id =  $this->get('session')->getFlashBag()->get('backgroundObra') ;
         if ($id){
             $obra = $repository->findOneBy(array('id'=> $id));
