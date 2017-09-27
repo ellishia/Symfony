@@ -19,6 +19,10 @@ obra:
     path: /obra/{obra}
     defaults: { _controller: AppBundle:Default:obra}
     
+modelo: 
+    path: /modelo/{modelo}-{id}
+    defaults: {_controller: AppBundle:Default:modelo}
+    
 addArtista:
     path: /addArtista
     defaults: {_controller: AppBundle:Default:newArtist}
@@ -30,6 +34,14 @@ addObra:
 addCurriculum:
     path: /addCurriculum
     defaults: {_controller: AppBundle:Default:newCurriculum}
+    
+addModelo:
+    path: /addModelo
+    defaults: {_controller: AppBundle:Default:newModelo}
+    
+admin: 
+    path: /admin
+    defaults: {_controller: AppBundle:Admin:defaultPage}
     
 login:
     pattern:   /login
