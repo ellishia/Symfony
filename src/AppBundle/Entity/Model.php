@@ -94,6 +94,58 @@ class Model
     {
         return $this->foto;
     }
+     
+    public function getAbsolutePath()
+    {
+        return null === $this->foto
+            ? null
+            : $this->getUploadRootDir().'/'.$this->foto;
+    }
+
+    public function getWebPath()
+    {
+        return null === $this->foto
+            ? null
+            : $this->getUploadDir().'/'.$this->foto;
+    }
+
+    protected function getUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../web/'.$this->getUploadDir();
+    }
+
+    protected function getUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'images/'.$this->getUsuario()->getNombre().'_'.$this->getUsuario()->getApellidos();
+    }
+
+    public function upload()
+    {
+    // the file property can be empty if the field is not required
+        if (null === $this->getFoto()) {
+         return;
+        }
+
+    // use the original file name here but you should
+    // sanitize it at least to avoid any security issues
+
+    // move takes the target directory and then the
+    // target filename to move to
+    $this->getFoto()->move(
+        $this->getUploadRootDir(),
+        $this->getFoto()->getClientOriginalName()
+    );
+
+    // set the path property to the filename where you've saved the file
+    $this->foto = $this->getFoto()->getClientOriginalName();
+
+    // clean up the file property as you won't need it anymore
+   
+}
 
     /**
      * Set usuarioId
