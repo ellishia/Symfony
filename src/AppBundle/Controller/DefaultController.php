@@ -204,8 +204,8 @@ class DefaultController extends Controller
         }
         
         return $this->render('default/createArtista.html.twig', array('form' => $form->createView(), 'obra' => $obra ));
-    }
-    
+    }   
+      
       /*
      * @Route("/addModelo", name="addModelo")
      */
@@ -297,6 +297,80 @@ class DefaultController extends Controller
             $this->get('session')->getFlashBag()->add('backgroundObra', $obra);
             $this->get('session')->getFlashBag()->add('artista', $artista->getId());
             return $this->redirect($this->generateUrl('addObra', array('request' => $request)));
+        }
+        
+        return $this->render('default/createCurriculum.html.twig', array('form' => $form->createView(), 
+            'obra' => $obra , 'artista' =>$artista ));
+    }
+    
+     /*
+     * @Route("/curriculum/{id}", name="editCurriculum")
+     */
+    public function editCurriculumAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Obra');
+        $count = 1000;
+        $id =  $this->get('session')->getFlashBag()->get('backgroundObra') ;
+        if ($id){
+            $obra = $repository->findOneBy(array('id'=> $id));
+        }
+        while (!$obra  or $obra->getFoto() ==null)  {
+            $obra = $repository->findOneBy(array('id' => rand(1, $count)));
+        }
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Curriculum');
+       
+        $curriculum = $repository->findOneBy(array('id' =>  $request->get('id') ));
+        $artista = $curriculum->getArtista();
+
+        /* $originalTags = new ArrayCollection();
+
+            // Create an ArrayCollection of the current Tag objects in the database
+            foreach ($task->getTags() as $tag) {
+                $originalTags->add($tag);
+            }*/
+
+        $originalEstudios =  $curriculum->getEstudios();
+        $originalExperiecias = $curriculum->getExperiencias();
+
+        $form = $this->createForm(CurriculumType::class, $curriculum);
+        $form->handleRequest($request);
+        
+        if($form->isSubmitted() and $form->isValid()){
+
+            // remove the relationship between the tag and the Task
+            foreach ($originalEstudios as $estudio) {
+                if (false === $curriculum->getEstudios()->contains($estudio)) {
+                    // remove the Task from the Tag
+                    $curriculum->getEstudios()->removeElement($estudio);
+                    $em->remove($estudio);
+                }
+            }
+            $estudios = $form->get('estudio')->getData();
+            foreach($estudios as $estudio) {
+                if (false === $originalEstudios->contains($estudio)){
+                    $em->persist($estudio);
+                }
+            }
+
+             foreach ($originalExperiencias as $experiencia) {
+                if (false === $curriculum->getExperiencias()->contains($experiencia)) {
+                    $curriculum->getExperiencias()->removeElement($experiencia);
+                    $em->remove($experiencia);
+                }
+             }            
+             $experiencias = $form->get('exposicion')->getData();
+             foreach ($experiencias as $experiencia){
+                if (false === $originalExperiencias->contains($experiencia) {
+                    $em->persist($experiencia);
+                }
+            }
+
+            $em->flush();
+            
+            $this->get('session')->getFlashBag()->add('backgroundObra', $obra);
+            $this->get('session')->getFlashBag()->add('artista', $artista->getId());
+            return $this->redirectToRoute('artista', ['id' => $curriculurm->getArtista()->getId()]);
         }
         
         return $this->render('default/createCurriculum.html.twig', array('form' => $form->createView(), 
