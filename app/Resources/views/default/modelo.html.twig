@@ -4,7 +4,7 @@
 {% block body %}
     <div class="container"> 
          <h2 class="pagename">Profile de {{artist[0].nombre}} {{artist[0].apellidos}}</h2> 
-              <div class="col"> 
+         <div class="col"> 
                <br> <h2 style="color:grey;"> Obras </h2>
                <br> <br>
                <div style="clear:both;"></div>
@@ -16,19 +16,14 @@
                     <img class="obra" src="{{asset('images/' ~ obra.foto )}}"/>
                     </a>
                     <div class="ob-overlay">
-                        <p class="titulo" > Título: {{obra.titulo}} <br>
-                        Año:  {{ obra.anyo|date('Y') }} <br>
-                        Dimensiones: {{obra.medidas}} <br>
-                        {% if obra.coleccionPrivada %}  
-                            Coleccion Privada 
-                        {% else %}
-                            Precio: {{obra.precio}} €
-                        {% endif %} </p>
+                        <p class="titulo" > Sessión: {{obra.titulo}} <br>
+                        Año:  {{ obra.anyo|date('Y') }} <br>                       
                     </div>
                 </div>
                 {% endfor %}
             </div>
-            </div>
+     </div> 
+    
 {% endblock %}
 
 {% block stylesheets %}
