@@ -35,6 +35,10 @@ addCurriculum:
     path: /addCurriculum
     defaults: {_controller: AppBundle:Default:newCurriculum}
     
+editCurriculum:
+    path: /curriculum/{id}
+    defaults: {_controller: AppBundle:Default:editCurriculum}
+    
 addModelo:
     path: /addModelo
     defaults: {_controller: AppBundle:Default:newModelo}
