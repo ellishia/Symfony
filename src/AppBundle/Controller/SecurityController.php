@@ -1,11 +1,6 @@
 <?php
 
 // src/AppBundle/Controller/SecurityController.php
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 namespace AppBundle\Controller;
 
@@ -13,6 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Form\PasswordType;
+use AppBundle\Entity\Usuario;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+
 
 class SecurityController extends Controller
 {
@@ -46,6 +44,14 @@ class SecurityController extends Controller
         $form = $this->createForm(PasswordType::class); 
         
         
+    }
+    
+    public function authenticateUser(Usuario $user)
+    {
+        $providerKey = 'secured_area'; // your firewall name
+        $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
+
+        $this->container->get('security.context')->setToken($token);
     }
 }
 
