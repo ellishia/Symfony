@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+    <div class="container"> 
+         <h2 class="pagename">Profile de {{artist[0].nombre}} {{artist[0].apellidos}}</h2> 
+              <div class="col"> 
+               <br> <h2 style="color:grey;"> Obras </h2>
+               <br> <br>
+               <div style="clear:both;"></div>
+                {% for obra in  obras %} 
+                {#Hacer aqui un carrousel #}
+                <div id="cuadro" class="left ob-wrapper">
+                    <br>
+                    <a href="/obra/{{obra.id}}">
+                    <img class="obra" src="{{asset('images/' ~ obra.foto )}}"/>
+                    </a>
+                    <div class="ob-overlay">
+                        <p class="titulo" > Título: {{obra.titulo}} <br>
+                        Año:  {{ obra.anyo|date('Y') }} <br>
+                        Dimensiones: {{obra.medidas}} <br>
+                        {% if obra.coleccionPrivada %}  
+                            Coleccion Privada 
+                        {% else %}
+                            Precio: {{obra.precio}} €
+                        {% endif %} </p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            </div>
+{% endblock %}
+
+{% block stylesheets %}
+  <link href="{{ asset('css/base.css') }}" type="text/css" rel="stylesheet" />
+  <link href="{{ asset('css/column.css') }}" type="text/css" rel="stylesheet" />
+  <link href="{{ asset('css/obra-overlay.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
