@@ -11,6 +11,7 @@ use AppBundle\Entity\Obra;
 use AppBundle\Entity\Curriculum;
 use AppBundle\Entity\Estudio;
 use AppBundle\Form\ArtistType;
+user AppBundle\Form\ModelType;
 use AppBundle\Form\CurriculumType;
 use AppBundle\Form\ObraType;
 
