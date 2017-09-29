@@ -155,11 +155,10 @@ class DefaultController extends Controller
         $repository = $this->getDoctrine()->getRepository('AppBundle:Obra');       
         $obras = $repository->findBy(array('modelo' => $id));
        
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Curriculum');
-        $curriculum = $repository->findOneBy(array('artista' => $id));
+      //  $repository = $this->getDoctrine()->getRepository('AppBundle:Curriculum');
+      //  $curriculum = $repository->findOneBy(array('artista' => $id));
        
-        return $this->render('default/artista.html.twig', array('artist' => $modelo, 'obras' => $obras, 
-            'curriculum' => $curriculum));        
+        return $this->render('default/artista.html.twig', array('artist' => $modelo, 'obras' => $obras));        
     }
     
     
@@ -189,7 +188,8 @@ class DefaultController extends Controller
             $usuario = $form["usuario"]->getData();
             $usuario->setDefaults();
             //Aun por ver como añado el rol 
-           // $usuario->addRole('ROLE_ARTIST');
+            $roles=['ROLE_USER', 'ROLE_ARTIST'];
+            $usuario->setRoles($roles);
             $pwd=$usuario->getPassword();
             $encoder=$this->container->get('security.password_encoder');
             $pwd=$encoder->encodePassword($usuario, $pwd);
@@ -199,6 +199,8 @@ class DefaultController extends Controller
             $em->persist($usuario);
             $em->persist($artista);
             $em->flush();
+            // login the new created user
+            
             $this->get('session')->getFlashBag()->add('backgroundObra', $obra->getId());
             $this->get('session')->getFlashBag()->add('artista', $artista->getId());
             return $this->redirect($this->generateUrl('addCurriculum', array('request' => $request)));
@@ -234,7 +236,8 @@ class DefaultController extends Controller
             $usuario = $form["usuario"]->getData();
             $usuario->setDefaults();
             //Aun por ver como añado el rol 
-           // $usuario->addRole('ROLE_ARTIST');
+            $roles=['ROLE_USER'];
+            $usuario->setRoles($roles);
             $pwd=$usuario->getPassword();
             $encoder=$this->container->get('security.password_encoder');
             $pwd=$encoder->encodePassword($usuario, $pwd);
@@ -267,10 +270,10 @@ class DefaultController extends Controller
         while (!$obra  or $obra->getFoto() ==null)  {
             $obra = $repository->findOneBy(array('id' => rand(1, $count)));
         }
+        //get the artist from the logged in user 
         $repository = $this->getDoctrine()->getRepository('AppBundle:Artista');       
        
         $artista = $repository->findOneBy(array('id' =>  $this->get('session')->getFlashBag()->get('artista')));
-       // $artista = $this->get('session')->getFlashBag()->get('artista');
         
         $curriculum = new Curriculum();
         if ($artista){
