@@ -282,7 +282,7 @@ class Usuario implements UserInterface, \Serializable
     }
     
     public function setRoles($roles){
-        this->roles = $roles;
+        $this->roles = $roles;
     }
 
     public function addRole($role){

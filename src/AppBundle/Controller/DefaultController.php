@@ -11,7 +11,7 @@ use AppBundle\Entity\Obra;
 use AppBundle\Entity\Curriculum;
 use AppBundle\Entity\Estudio;
 use AppBundle\Form\ArtistType;
-user AppBundle\Form\ModelType;
+use AppBundle\Form\ModelType;
 use AppBundle\Form\CurriculumType;
 use AppBundle\Form\ObraType;
 
@@ -141,11 +141,11 @@ class DefaultController extends Controller
     public function modeloAction(Request $request){
         
         $id = $request->get('id');
-        $repository = $this->getDoctrine()->getRepository('AppBundle:Modelo');
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Model');
          
         $queryb = $repository->createQueryBuilder('a')
         ->select( 'a.nombreArtistico', 'a.id', 'a.foto', 'u.nombre', 'u.apellidos' )
-            ->join( 'a.usuario', 'u', 'AppBundle:Usuario')            
+            ->join( 'a.usuarioId', 'u', 'AppBundle:Usuario')            
            ->where('a.id = :id')
            ->setParameter('id', $id);
             
@@ -153,12 +153,12 @@ class DefaultController extends Controller
         $modelo = $query->getResult();
        
         $repository = $this->getDoctrine()->getRepository('AppBundle:Obra');       
-        $obras = $repository->findBy(array('modelo' => $id));
+        $obras = $repository->findBy(array('model' => $id));
        
       //  $repository = $this->getDoctrine()->getRepository('AppBundle:Curriculum');
       //  $curriculum = $repository->findOneBy(array('artista' => $id));
        
-        return $this->render('default/artista.html.twig', array('artist' => $modelo, 'obras' => $obras));        
+        return $this->render('default/modelo.html.twig', array('artist' => $modelo, 'obras' => $obras));        
     }
     
     
@@ -335,7 +335,7 @@ class DefaultController extends Controller
             }*/
 
         $originalEstudios =  $curriculum->getEstudios();
-        $originalExperiecias = $curriculum->getExperiencias();
+        $originalExperiencias = $curriculum->getExperiencias();
 
         $form = $this->createForm(CurriculumType::class, $curriculum);
         $form->handleRequest($request);
@@ -365,7 +365,7 @@ class DefaultController extends Controller
              }            
              $experiencias = $form->get('exposicion')->getData();
              foreach ($experiencias as $experiencia){
-                if (false === $originalExperiencias->contains($experiencia) {
+                if (false === $originalExperiencias->contains($experiencia)) {
                     $em->persist($experiencia);
                 }
             }

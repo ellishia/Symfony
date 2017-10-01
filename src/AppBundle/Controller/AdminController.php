@@ -17,16 +17,20 @@ class AdminController extends Controller
 {
 
     /**
-    * @route("/admin", name"admin)
+    * @Route("/admin", name="admin")
     */
-    public adminAction(Request $request){
+    public function adminAction(Request $request){
 
         $repository = $this->getDoctrine()->getRepository('AppBundle:Artista');
-
-        $query->
+        $queryb = $repository->createQueryBuilder('a')
+            ->select('art.name', 'a.nombreArtistico', 'a.id', 'a.foto', 'u.nombre', 'u.apellidos' )
+            ->join( 'a.usuario', 'u', 'AppBundle:Usuario')
+            ->leftjoin('a.art', 'art') 
+            ->where('u.isActive = 0')
+            ->orderBy('u.id', 'ASC');  
+        
+        
     }
-
-    }
-
 
 }
+

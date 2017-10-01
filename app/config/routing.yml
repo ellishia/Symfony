@@ -45,7 +45,7 @@ addModelo:
     
 admin: 
     path: /admin
-    defaults: {_controller: AppBundle:Admin:defaultPage}
+    defaults: {_controller: AppBundle:Admin:admin}
     
 login:
     pattern:   /login
