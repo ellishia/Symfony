@@ -7,8 +7,14 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Form\PasswordType;
 use AppBundle\Entity\Usuario;
+use AppBundle\Entity\Artista;
+use AppBundle\Entity\Model;
+use AppBundle\Entity\Obra;
+use AppBundle\Form\UsuarioType;
+use AppBundle\Form\PasswordType;
+use AppBundle\Form\ArtistType;
+use AppBundle\Form\ModelType;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 
@@ -39,12 +45,113 @@ class SecurityController extends Controller
     /*
      *  @Route("/modPass", name="password")
      */
+    //TODO
     public function modifyPass(Request $request){
         
-        $form = $this->createForm(PasswordType::class); 
+        $form = $this->createForm(PasswordType::class);         
         
+    }      
+    
+    /*
+     * @Route("/addArtista", name="addArtista")
+     */
+    public function newArtistAction(Request $request)
+    {
+        // randomly pick an obra photo
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery('SELECT COUNT(o.id) FROM AppBundle\Entity\Obra o');
+        $count = $query->getSingleScalarResult();
+       
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Obra');
+      
+           do {
+            $obra = $repository->findOneBy(array('id' => rand(1, $count)));
+           }while (!$obra or $obra->getFoto() == null);
         
+        $artista = new Artista();
+        $form = $this->createForm(ArtistType::class, $artista);
+        
+        $form->handleRequest($request);
+        
+        $artista->upload();
+        if($form->isSubmitted() and $form->isValid()){
+            $usuario = $form["usuario"]->getData();
+            $usuario->setDefaults();
+            //Aun por ver como añado el rol 
+            $roles=['ROLE_USER', 'ROLE_ARTIST'];
+            $usuario->setRoles($roles);
+            $pwd=$usuario->getPassword();
+            $encoder=$this->container->get('security.password_encoder');
+            $pwd=$encoder->encodePassword($usuario, $pwd);
+            $usuario->setPassword($pwd);
+            $artista->setDestacado( false);
+            $artista->setIsActive(false);
+            $em->persist($usuario);
+            $em->persist($artista);
+            $em->flush();
+            // login the new created user
+            $this->authenticateUser($usuario);
+            
+            $this->get('session')->getFlashBag()->add('backgroundObra', $obra->getId());
+            $this->get('session')->getFlashBag()->add('artista', $artista->getId());
+            return $this->redirect($this->generateUrl('addCurriculum', array('request' => $request)));
+        }
+        
+        return $this->render('default/createArtista.html.twig', array('form' => $form->createView(), 'obra' => $obra ));
+    }   
+      
+      /*
+     * @Route("/addModelo", name="addModelo")
+     */
+    public function newModeloAction(Request $request)
+    {
+        // randomly pick an obra photo
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery('SELECT COUNT(o.id) FROM AppBundle\Entity\Obra o');
+        $count = $query->getSingleScalarResult();
+       
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Obra');
+      
+        do {
+            $obra = $repository->findOneBy(array('id' => rand(1, $count)));
+        }while (!$obra or $obra->getFoto() == null);
+        
+        $modelo = new Modelo();
+        $form = $this->createForm(ModeloType::class, $modelo);
+        
+        $form->handleRequest($request);
+        
+        $modelo->upload();
+        if($form->isSubmitted() and $form->isValid()){
+            // El usuario puede ya estar creado.           
+            $usuario = $form["usuario"]->getData();
+            $usuario->setDefaults();
+            //Aun por ver como añado el rol 
+            $roles=['ROLE_USER'];
+            $usuario->setRoles($roles);
+            $pwd=$usuario->getPassword();
+            $encoder=$this->container->get('security.password_encoder');
+            $pwd=$encoder->encodePassword($usuario, $pwd);
+            $usuario->setPassword($pwd);
+            $modelo->setDestacado(false);
+            $em->persist($usuario);
+            $em->persist($modelo);
+            $em->flush();
+            $this->get('session')->getFlashBag()->add('backgroundObra', $obra->getId());
+            $this->get('session')->getFlashBag()->add('artista', $modelo->getId());
+            return $this->redirect($this->generateUrl('addObra', array('request' => $request)));
+        }
+        
+        return $this->render('default/createArtista.html.twig', array('form' => $form->createView(), 'obra' => $obra ));
     }
+    
+    
+    
+    
+    
+    
+    
+    
     
     public function authenticateUser(Usuario $user)
     {
@@ -52,7 +159,7 @@ class SecurityController extends Controller
         $token = new UsernamePasswordToken($user, null, $providerKey, $user->getRoles());
 
         $this->container->get('security.context')->setToken($token);
-    }
+    }    
 }
 
     
