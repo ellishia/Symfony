@@ -97,7 +97,9 @@ class SecurityController extends Controller
             return $this->redirect($this->generateUrl('addCurriculum', array('request' => $request)));
         }
         
-        return $this->render('default/createArtista.html.twig', array('form' => $form->createView(), 'obra' => $obra ));
+        return $this->render('default/createArtista.html.twig', array('form' => $form->createView(), 
+                                                                      'obra' => $obra,
+                                                                      'title' => 'Añadir Artista' ));
     }   
       
       /*
@@ -142,7 +144,9 @@ class SecurityController extends Controller
             return $this->redirect($this->generateUrl('addObra', array('request' => $request)));
         }
         
-        return $this->render('default/createModelo.html.twig', array('form' => $form->createView(), 'obra' => $obra ));
+        return $this->render('default/createModelo.html.twig', array('form' => $form->createView(), 
+                                                                     'obra' => $obra,
+                                                                    'title' => 'Añadir Modelo'));
     }
     
      /**
@@ -168,13 +172,12 @@ class SecurityController extends Controller
             $em->persist($user);
             $em->flush();
 
-            // ... do any other work - like sending them an email, etc
             // maybe set a "flash" success message for the user
-
-            return $this->redirectToRoute('');
+            $this->authenticate($user);
+            return $this->redirectToRoute('/');
         }
 
-        return $this->render('default/register.html.twig', array('form' => $form->createView())
+        return $this->render('default/register.html.twig', array('form' => $form->createView(), 'title' => 'Registrar Usuario')
         );
     }    
     
