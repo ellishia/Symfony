@@ -1,0 +1,36 @@
+ - Open points:
+        § addUser => added Route, added function... (testing)
+        $ adminPage: Artistas en una tabla, separada inactivos, activos. Botton para activar o desactivar
+                     Modelos en una tabla igual que artistas
+                     Nuevos Curriculums en una tabla para activar
+                     Nuevas Obras en una tabla para activar
+
+        § destacado con sus obras en carrousel => add this in index.twig.html
+        § Responsive header
+        § Responsive menu
+        § artista y sus obras: titulo encima del cuadro
+        § new model (testing)
+        § new obra (testing): with drag&drop for images?
+        § view obra with the carrousel
+        § addCurrciculum or editCurriculum (how to decide) -> in addCurriculum :  if User is Admin I ask if edit myCV or addNew.
+                                                                                    if User is Artist: add if CV not exists or edit
+                                                                                    if User is Anonimous(request comes from addArtist): add CV
+        § Service for the obra as background
+        § contactPage
+        § searchPage and searchFunction
+        § Online Sale
+
+ private function backgroundObra(){
+
+    $repository = $this->getDoctrine()->getRepository('AppBundle:Obra');
+    $count = 1000;
+    $savedObra =  $this->get('session')->getFlashBag()->get('backgroundObra') ;
+    $id = $savedObra->getId();
+    if ($id){
+        $obra = $repository->findOneBy(array('id'=> $id));
+    }
+    while (!$obra  or $obra->getFoto() ==null)  {
+        $obra = $repository->findOneBy(array('id' => rand(1, $count)));
+    }
+    return $obra;
+ }
