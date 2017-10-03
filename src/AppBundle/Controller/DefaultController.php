@@ -210,7 +210,7 @@ class DefaultController extends Controller
         }
         
         return $this->render('default/createCurriculum.html.twig', array('form' => $form->createView(), 
-            'obra' => $obra , 'artista' =>$artista ));
+            'obra' => $obra , 'artista' =>$artista, 'title' => 'Añadir Curriculum' ));
     }
     
      /*
@@ -284,7 +284,7 @@ class DefaultController extends Controller
         }
         
         return $this->render('default/createCurriculum.html.twig', array('form' => $form->createView(), 
-            'obra' => $obra , 'artista' =>$artista ));
+            'obra' => $obra , 'artista' =>$artista, 'title' => 'Editar Curriculum' ));
     }
     /*
      *  @Route("/addObra", name="addObra")
