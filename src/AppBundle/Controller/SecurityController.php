@@ -92,7 +92,7 @@ class SecurityController extends Controller
             // login the new created user
             $this->authenticateUser($usuario);
             
-            $this->get('session')->getFlashBag()->add('backgroundObra', $obra->getId());
+            $this->get('session')->getFlashBag()->add('backgroundObra', $obra);
             $this->get('session')->getFlashBag()->add('artista', $artista->getId());
             return $this->redirect($this->generateUrl('addCurriculum', array('request' => $request)));
         }
@@ -139,7 +139,7 @@ class SecurityController extends Controller
             $em->persist($usuario);
             $em->persist($modelo);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('backgroundObra', $obra->getId());
+            $this->get('session')->getFlashBag()->add('backgroundObra', $obra);
             $this->get('session')->getFlashBag()->add('artista', $modelo->getId());
             return $this->redirect($this->generateUrl('addObra', array('request' => $request)));
         }
@@ -154,6 +154,7 @@ class SecurityController extends Controller
      */
     public function newUserAction(Request $request)
     {
+        $obra = $this->getBackgroundObra();
         // 1) build the form
         $user = new Usuario();
         $form = $this->createForm(UsuarioType::class, $user);
@@ -174,10 +175,13 @@ class SecurityController extends Controller
 
             // maybe set a "flash" success message for the user
             $this->authenticate($user);
+            $this->get('session')->getFlashBag()->add('backgroundObra', $obra);
             return $this->redirectToRoute('/');
         }
 
-        return $this->render('default/register.html.twig', array('form' => $form->createView(), 'title' => 'Registrar Usuario')
+        return $this->render('default/register.html.twig', array('form' => $form->createView(),  
+                                                                 'obra' => $obra,
+                                                                 'title' => 'Registrar Usuario')
         );
     }    
     
@@ -188,6 +192,20 @@ class SecurityController extends Controller
 
         $this->container->get('security.context')->setToken($token);
     }    
+    
+    // randomly pick an obra photo
+    public function getBackgroundObra(){
+        $em = $this->getDoctrine()->getManager();
+        $query = $em->createQuery('SELECT COUNT(o.id) FROM AppBundle\Entity\Obra o');
+        $count = $query->getSingleScalarResult();
+       
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Obra');
+      
+           do {
+            $obra = $repository->findOneBy(array('id' => rand(1, $count)));
+           }while (!$obra or $obra->getFoto() == null);
+        return $obra;
+    }
 }
 
     
