@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="background" style="background: url({{asset('images/' ~ obra.foto )}}) repeat; background-size: 160px 160px;  ">
+    <div class="transbox">
+        <h2  class="pagename">{{title}} </h2> <br>
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        {{ form_row(form.nombre, {'attr': {'class': 'row spacing'}, 'label_attr': {'class': 'lab'}}) }}
+        {{ form_row(form.apellidos, {'attr': {'class': 'row spacing'}, 'label_attr': {'class': 'lab'}}) }}
+        {{ form_row(form.username,{'attr': {'class': 'row spacing' }, 'label_attr': {'class': 'lab'} }) }}
+        {{ form_row(form.email , { 'attr': {'class': 'row spacing'},  'label_attr': {'class': 'lab'} }) }}
+        {{ form_row(form.password)}}
+        <div class="button">
+            {{ form_widget(form.continue, {'attr': {'class':'row'} }) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+{%endblock %}
+
+{% block stylesheets %}
+<link href="{{ asset('css/base.css') }}" type="text/css" rel="stylesheet" />
+<link href="{{ asset('css/default.css') }}" type="text/css" rel="stylesheet" />
+{% endblock %}
+

@@ -22,7 +22,9 @@ class UsuarioType extends AbstractType {
      public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('nombre')
+            ->add('nombre', array(
+                'attr' => array('class' => 'row spacing'),
+                 'label_attr' => array('class' => 'lab') )) 
             ->add('apellidos')
             ->add('username')
             ->add('email',  'repeated', array(

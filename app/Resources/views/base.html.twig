@@ -137,6 +137,13 @@
             </ul>
 	
             <div id="contentwrap" >
+	    	{% if app.session.flashBag.has('message') %}
+ 		<div class="alert alert-success">
+     			{% for msg in app.session.flashBag.get('message') %}
+    				{{ msg }}
+     			{% endfor %}
+ 		</div>
+ 		{% endif %}
                 <div id="content"> {% block body %} {% endblock %} </div>
             </div>
        
