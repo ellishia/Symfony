@@ -34,8 +34,13 @@ class DefaultController extends Controller
       
         $query=$queryb->getQuery();
         $artistas = $query->getResult();
+        $repository = $this->getDoctrine()->getRepository('AppBundle:Obra');       
+        $obras = $repository->findBy(array('artista' => $id));
+        
         // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', array( 'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),  'artistas' => $artistas
+        return $this->render('default/index.html.twig', array('base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),  
+                                                              'artistas' => $artistas,
+                                                              'obras' => $obras
         ));
     }
     
