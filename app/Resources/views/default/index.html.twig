@@ -68,6 +68,23 @@
                     <p class="description_content">{{artist.nombre}}<br>{{artist.apellidos}} <br> </p>  
                   <!-- end description content -->  
                   </div>  
+		  {% for obra in obras %}
+         	<a href="/obra/{{obra.id}}" >
+            	    <img class="obra" src="{{asset('images/' ~ obra.foto )}}"/>
+        	</a>
+        	<div class="ob-overlay">
+            	   <p class="titulo" > Título: {{obra.titulo}} <br>
+                	Año:  {{ obra.anyo|date('Y') }} <br>
+                   	Dimensiones: {{obra.medidas}} <br>
+                   	{% if obra.coleccionPrivada %}
+                       		Coleccion Privada
+                   	{% else %}
+                      		Precio: {{obra.precio}} €
+             	   	{% endif %}
+           	    </p>
+         	</div>
+
+        	{% endfor %}
               {% endfor %}
         </div>           
      </div>
